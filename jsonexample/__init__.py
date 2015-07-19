@@ -24,6 +24,7 @@ def main(global_config, **settings):
     config.add_route('basic', '/basic')
     config.add_route('custom', '/custom')
     config.add_route('sqlalchemy_simple', '/sqlalchemy_simple')
+    config.add_route('sqlalchemy_marshmallow', '/sqlalchemy_marshmallow')
 
     config.scan()
     return config.make_wsgi_app()

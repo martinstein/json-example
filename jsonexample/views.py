@@ -1,10 +1,12 @@
 import datetime
+import random
 
 from pyramid.view import view_config
 
 from jsonexample.models import (
     DBSession,
     User,
+    UserSchema,
     )
 
 
@@ -33,3 +35,19 @@ def get_user_custom(request):
 def get_user_sqlalchemy_simple(request):
     user = DBSession.query(User).filter_by(name="Bruce Wayne").one()
     return user
+
+
+@view_config(route_name='sqlalchemy_marshmallow', renderer='json')
+def get_user_sqlalchemy_marshmallow(request):
+    user = DBSession.query(User).filter_by(name="Bruce Wayne").one()
+
+    # Now we select the schema and which fields to be included/excluded
+    # based on some runtime condition. Imagine a test if the currently
+    # logged in user is admin or not.
+    if random.randint(0, 1):
+        user_schema = UserSchema()
+    else:
+        user_schema = UserSchema(exclude=("id", "created_at"))
+
+    data, erros = user_schema.dump(user)
+    return data

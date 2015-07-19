@@ -1,3 +1,4 @@
+from marshmallow import Schema
 from sqlalchemy import (
     Column,
     Boolean,
@@ -38,3 +39,9 @@ class User(Base):
     name = Column(Text)
     super_hero = Column(Boolean)
     created_at = Column(DateTime)
+
+
+class UserSchema(Schema):
+
+    class Meta:
+        fields = ("id", "name", "super_hero", "created_at")
