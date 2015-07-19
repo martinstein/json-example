@@ -1,3 +1,4 @@
+import datetime
 import unittest
 import transaction
 
@@ -13,12 +14,13 @@ class TestMyViewSuccessCondition(unittest.TestCase):
         engine = create_engine('sqlite://')
         from .models import (
             Base,
-            MyModel,
+            User,
             )
         DBSession.configure(bind=engine)
         Base.metadata.create_all(engine)
         with transaction.manager:
-            model = MyModel(name='one', value=55)
+            model = User(name='Bruce Wayne', super_hero=True,
+                         created_at=datetime.datetime.now())
             DBSession.add(model)
 
     def tearDown(self):
@@ -26,30 +28,7 @@ class TestMyViewSuccessCondition(unittest.TestCase):
         testing.tearDown()
 
     def test_passing_view(self):
-        from .views import my_view
+        from .views import get_user_sqlalchemy_simple
         request = testing.DummyRequest()
-        info = my_view(request)
-        self.assertEqual(info['one'].name, 'one')
-        self.assertEqual(info['project'], 'json-example')
-
-
-class TestMyViewFailureCondition(unittest.TestCase):
-    def setUp(self):
-        self.config = testing.setUp()
-        from sqlalchemy import create_engine
-        engine = create_engine('sqlite://')
-        from .models import (
-            Base,
-            MyModel,
-            )
-        DBSession.configure(bind=engine)
-
-    def tearDown(self):
-        DBSession.remove()
-        testing.tearDown()
-
-    def test_failing_view(self):
-        from .views import my_view
-        request = testing.DummyRequest()
-        info = my_view(request)
-        self.assertEqual(info.status_int, 500)
+        user = get_user_sqlalchemy_simple(request)
+        self.assertEqual(user.name, 'Bruce Wayne')

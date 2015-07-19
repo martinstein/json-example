@@ -21,8 +21,9 @@ def main(global_config, **settings):
     config.add_static_view('static', 'static', cache_max_age=3600)
 
     # relevant routes for the blog post
-    config.add_route('user_basic', '/user_basic')
-    config.add_route('user_custom', '/user_custom')
+    config.add_route('basic', '/basic')
+    config.add_route('custom', '/custom')
+    config.add_route('sqlalchemy_simple', '/sqlalchemy_simple')
 
     config.scan()
     return config.make_wsgi_app()

@@ -1,6 +1,7 @@
 from sqlalchemy import (
     Column,
-    Index,
+    Boolean,
+    DateTime,
     Integer,
     Text,
     )
@@ -18,10 +19,10 @@ DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 Base = declarative_base()
 
 
-class MyModel(Base):
-    __tablename__ = 'models'
+class User(Base):
+    __tablename__ = 'users'
+
     id = Column(Integer, primary_key=True)
     name = Column(Text)
-    value = Column(Integer)
-
-Index('my_index', MyModel.name, unique=True, mysql_length=255)
+    super_hero = Column(Boolean)
+    created_at = Column(DateTime)
