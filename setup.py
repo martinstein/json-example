@@ -9,13 +9,14 @@ with open(os.path.join(here, 'CHANGES.txt')) as f:
     CHANGES = f.read()
 
 requires = [
-    'pyramid',
-    'pyramid_debugtoolbar',
-    'pyramid_tm',
-    'SQLAlchemy',
-    'transaction',
-    'zope.sqlalchemy',
-    'waitress',
+    'marshmallow==2.0.0b4',
+    'pyramid==1.5.7',
+    'pyramid-debugtoolbar==2.4',
+    'pyramid-tm==0.12',
+    'SQLAlchemy==1.0.6',
+    'transaction==1.4.4',
+    'zope.sqlalchemy==0.7.6',
+    'waitress==0.8.9',
     ]
 
 setup(name='json-example',
