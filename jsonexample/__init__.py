@@ -5,6 +5,7 @@ from .models import (
     DBSession,
     Base,
     )
+from .util.jsonhelpers import custom_json_renderer
 
 
 def main(global_config, **settings):
@@ -14,6 +15,7 @@ def main(global_config, **settings):
     DBSession.configure(bind=engine)
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
+    config.add_renderer('json', custom_json_renderer())
 
     # standard static route (not really needed for this example)
     config.add_static_view('static', 'static', cache_max_age=3600)
