@@ -49,5 +49,5 @@ def get_user_sqlalchemy_marshmallow(request):
     else:
         user_schema = UserSchema(exclude=("id", "created_at"))
 
-    data, erros = user_schema.dump(user)
+    data, errors = user_schema.dump(user)
     return data
