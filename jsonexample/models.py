@@ -16,11 +16,23 @@ from sqlalchemy.orm import (
 from zope.sqlalchemy import ZopeTransactionExtension
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
-Base = declarative_base()
+
+
+class Base(object):
+    def __json__(self, request):
+        json_exclude = getattr(self, '__json_exclude__', set())
+        return {key: value for key, value in self.__dict__.items()
+                # Do not serialize 'private' attributes
+                # (SQLAlchemy-internal attributes are among those, too)
+                if not key.startswith('_')
+                and key not in json_exclude}
+
+Base = declarative_base(cls=Base)
 
 
 class User(Base):
     __tablename__ = 'users'
+    __json_exclude__ = set(["created_at"])
 
     id = Column(Integer, primary_key=True)
     name = Column(Text)
