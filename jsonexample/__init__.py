@@ -6,6 +6,7 @@ from .models import (
     Base,
     )
 from .util.jsonhelpers import custom_json_renderer
+from .util.jsonhelpers2 import custom_json_renderer2
 
 
 def main(global_config, **settings):
@@ -16,6 +17,7 @@ def main(global_config, **settings):
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
     config.add_renderer('json', custom_json_renderer())
+    config.add_renderer('json2', custom_json_renderer2())
 
     # standard static route (not really needed for this example)
     config.add_static_view('static', 'static', cache_max_age=3600)
@@ -25,6 +27,7 @@ def main(global_config, **settings):
     config.add_route('custom', '/custom')
     config.add_route('sqlalchemy_simple', '/sqlalchemy_simple')
     config.add_route('sqlalchemy_marshmallow', '/sqlalchemy_marshmallow')
+    config.add_route('marshmallow_integrated', '/marshmallow_integrated')
 
     config.scan()
     return config.make_wsgi_app()

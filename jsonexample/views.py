@@ -51,3 +51,15 @@ def get_user_sqlalchemy_marshmallow(request):
 
     data, errors = user_schema.dump(user)
     return data
+
+
+@view_config(route_name='marshmallow_integrated', renderer='json2')
+def get_user_marshmallow_integrated(request):
+    user = DBSession.query(User).filter_by(name="Bruce Wayne").one()
+
+    if random.randint(0, 1):
+        request.render_schema = UserSchema()
+    else:
+        request.render_schema = UserSchema(exclude=("id", "created_at"))
+
+    return user
