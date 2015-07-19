@@ -15,8 +15,12 @@ def main(global_config, **settings):
     Base.metadata.bind = engine
     config = Configurator(settings=settings)
 
+    # standard static route (not really needed for this example)
     config.add_static_view('static', 'static', cache_max_age=3600)
+
+    # relevant routes for the blog post
     config.add_route('user_basic', '/user_basic')
+    config.add_route('user_custom', '/user_custom')
 
     config.scan()
     return config.make_wsgi_app()
