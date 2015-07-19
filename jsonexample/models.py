@@ -1,4 +1,3 @@
-from marshmallow import Schema
 from sqlalchemy import (
     Column,
     Boolean,
@@ -15,6 +14,7 @@ from sqlalchemy.orm import (
     )
 
 from zope.sqlalchemy import ZopeTransactionExtension
+from jsonexample.util.jsonhelpers import RenderSchema
 
 DBSession = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 
@@ -41,7 +41,7 @@ class User(Base):
     created_at = Column(DateTime)
 
 
-class UserSchema(Schema):
+class UserSchema(RenderSchema):
 
     class Meta:
         fields = ("id", "name", "super_hero", "created_at")
